@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrato de Préstamo Grupal - Triunfadoras de la Huaca</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      background-color: #ffffff;
+      padding: 16px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    header img {
+      width: 280px;
+      height: 160px;
+      background-color: transparent;
+    }
+    main {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: #2b4c7e;
+    }
+    p {
+      font-size: 0.95rem;
+      text-align: justify;
+      line-height: 1.6;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+    }
+    canvas {
+      border: 1px solid #999;
+      border-radius: 8px;
+      margin-top: 8px;
+      width: 100%;
+      height: 160px;
+      touch-action: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background-color: #2b4c7e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1f3660;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/LogoSantander.jpeg" alt="Logo Santander Fondos Colectivos">
+  </header>
+  <main>
+    <h1>Contrato de Préstamo Grupal - “Triunfadoras de la Huaca”</h1>
+    <p><strong>Fecha:</strong> 20 de octubre de 2025<br>
+    <strong>Lugar:</strong> Trujillo, Perú</p>
+
+    <p>Conste por el presente documento el Contrato de Préstamo Grupal Individual, que celebran de una parte <strong>SANTANDER FONDOS COLECTIVOS S.A.C.</strong>, en adelante “El Prestamista”, y de la otra parte, la Sra. <strong>Yuli Roxana Fernández Ríos</strong>, identificada con D.N.I. N.º <strong>26732791</strong>, con domicilio en <strong>Jushape S/N, Campiña de Moche</strong>, en adelante “La Prestataria”.</p>
+
+    <p>El préstamo forma parte del grupo <strong>“Triunfadoras de la Huaca”</strong>, conformado por trece (13) integrantes. Cada prestataria asume una obligación individual, pero el riesgo es compartido, de modo que el incumplimiento de una afecta la evaluación del grupo completo.</p>
+
+    <p>El monto asignado a la Sra. <strong>Fernández Ríos</strong> es de <strong>S/ 4,000.00</strong>, con un pago quincenal de <strong>S/ 585.00</strong> durante un plazo de cuatro (4) meses (8 cuotas). La tasa de interés aplicada es de <strong>3.82%</strong>. La mora será de <strong>S/ 1.00</strong> por día de atraso.</p>
+
+    <p>El contrato entra en vigencia desde la fecha de firma electrónica y se considera aceptado al enviarse este formulario, con valor equivalente a la firma manuscrita.</p>
+
+    <form id="formContrato">
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="dni">DNI:</label>
+      <input type="text" id="dni" name="dni" value="26732791" required>
+
+      <label for="firma">Firma (dibujar con el dedo):</label>
+      <canvas id="firma" width="300" height="150"></canvas>
+      <button type="button" id="limpiarFirma">Borrar firma</button>
+
+      <button type="submit">Enviar conformidad</button>
+    </form>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('firma');
+    const ctx = canvas.getContext('2d');
+    let dibujando = false;
+
+    canvas.addEventListener('touchstart', e => {
+      dibujando = true;
+      ctx.beginPath();
+      ctx.moveTo(e.touches[0].clientX - canvas.offsetLeft, e.touches[0].clientY - canvas.offsetTop);
+    });
+    canvas.addEventListener('touchmove', e => {
+      if (!dibujando) return;
+      e.preventDefault();
+      ctx.lineTo(e.touches[0].clientX - canvas.offsetLeft, e.touches[0].clientY - canvas.offsetTop);
+      ctx.stroke();
+    });
+    canvas.addEventListener('touchend', () => dibujando = false);
+
+    document.getElementById('limpiarFirma').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    document.getElementById('formContrato').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const dni = document.getElementById('dni').value;
+      const firma = canvas.toDataURL();
+
+      // Aquí se simula el envío al correo sanchezf.a@pucp.edu.pe
+      await fetch('https://api.tu-servidor.com/enviarContrato', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, dni, firma })
+      });
+
+      alert('✅ Conformidad enviada correctamente. ¡Gracias por confirmar!');
+      e.target.reset();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  </script>
+</body>
+</html>
