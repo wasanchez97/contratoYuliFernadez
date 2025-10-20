@@ -52,6 +52,11 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 0.9rem;
+      background-color: #f0f0f0;
+    }
+    input[readonly] {
+      color: #666;
+      cursor: not-allowed;
     }
     #firma {
       border: 1px solid #999;
@@ -76,6 +81,33 @@
     button:hover {
       background-color: #1f3660;
     }
+    .nota {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #555;
+      margin-top: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 0.85rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    #success-message {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      font-size: 1.1rem;
+      color: #2b4c7e;
+    }
   </style>
 </head>
 <body>
@@ -83,35 +115,64 @@
     <img src="img/LogoSantander.jpeg" alt="Logo Santander Fondos Colectivos" />
   </header>
 
-  <main>
+  <main id="main-content">
     <h1>Contrato de Préstamo Grupal - “Triunfadoras de la Huaca”</h1>
     <p><strong>Fecha:</strong> 20 de octubre de 2025<br>
     <strong>Lugar:</strong> Trujillo, Perú</p>
 
-    <p>Conste por el presente documento el Contrato de Préstamo Grupal Individual, que celebran de una parte <strong>SANTANDER FONDOS COLECTIVOS S.A.C.</strong>, en adelante “El Prestamista”, y de la otra parte, la Sra. <strong>Yuli Roxana Fernández Ríos</strong>, identificada con D.N.I. N.º <strong>26732791</strong>, con domicilio en <strong>Jushape S/N, Campiña de Moche</strong>, en adelante “La Prestataria”.</p>
+    <p>
+      Conste por el presente documento el Contrato de Préstamo Grupal Individual, que celebran de una parte 
+      <strong>SANTANDER FONDOS COLECTIVOS S.A.C.</strong>, en adelante “El Prestamista”, y de la otra parte, 
+      la Sra. <strong>Yuli Roxana Fernández Ríos</strong>, identificada con D.N.I. N.º <strong>26732791</strong>, 
+      con domicilio en <strong>Jushape S/N, Campiña de Moche</strong>, en adelante “La Prestataria”.
+    </p>
 
-    <p>El préstamo forma parte del grupo <strong>“Triunfadoras de la Huaca”</strong>, conformado por trece (13) integrantes. Cada prestataria asume una obligación individual, pero el riesgo es compartido, de modo que el incumplimiento de una afecta la evaluación del grupo completo.</p>
+    <p>
+      El préstamo forma parte del grupo <strong>“Triunfadoras de la Huaca”</strong>, conformado por trece (13) integrantes. 
+      Cada prestataria asume una obligación individual, pero el riesgo es compartido, de modo que el incumplimiento 
+      de una afecta la evaluación del grupo completo.
+    </p>
 
-    <p>El monto asignado a la Sra. <strong>Fernández Ríos</strong> es de <strong>S/ 4,000.00</strong>, con un pago quincenal de <strong>S/ 585.00</strong> durante un plazo de cuatro (4) meses (8 cuotas). La tasa de interés aplicada es de <strong>3.82%</strong>. La mora será de <strong>S/ 1.00</strong> por día de atraso.</p>
+    <p>
+      El monto asignado a la Sra. <strong>Fernández Ríos</strong> es de <strong>S/ 4,000.00</strong>, 
+      con un pago quincenal de <strong>S/ 585.00</strong> durante un plazo de cuatro (4) meses (8 cuotas). 
+      La tasa de interés aplicada es de <strong>3.82%</strong>. La mora será de <strong>S/ 1.00</strong> por día de atraso.
+    </p>
 
-    <p>El contrato entra en vigencia desde la fecha de firma electrónica y se considera aceptado al enviarse este formulario, con valor equivalente a la firma manuscrita.</p>
+    <p class="nota">*Nota: El monto de la cuota ya incluye el seguro correspondiente.*</p>
 
-    <!-- FORMULARIO CON FORMSSPREE -->
-    <form id="formContrato" action="https://formspree.io/f/mvgpzldd" method="POST">
+    <h3>Cronograma de Pagos</h3>
+    <table>
+      <tr><th>N°</th><th>Fecha de Pago</th><th>Cuota (S/)</th></tr>
+      <tr><td>1</td><td>05/11/2025</td><td>585.00</td></tr>
+      <tr><td>2</td><td>20/11/2025</td><td>585.00</td></tr>
+      <tr><td>3</td><td>05/12/2025</td><td>585.00</td></tr>
+      <tr><td>4</td><td>20/12/2025</td><td>585.00</td></tr>
+      <tr><td>5</td><td>04/01/2026</td><td>585.00</td></tr>
+      <tr><td>6</td><td>19/01/2026</td><td>585.00</td></tr>
+      <tr><td>7</td><td>03/02/2026</td><td>585.00</td></tr>
+      <tr><td>8</td><td>18/02/2026</td><td>585.00</td></tr>
+    </table>
+
+    <form id="formContrato">
       <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" name="nombre" required />
+      <input type="text" id="nombre" name="nombre" value="Yuli Roxana Fernández Ríos" readonly />
 
       <label for="dni">DNI:</label>
-      <input type="text" id="dni" name="dni" value="26732791" required />
+      <input type="text" id="dni" name="dni" value="26732791" readonly />
 
       <label for="firma">Firma (dibujar con el dedo):</label>
       <canvas id="firma"></canvas>
-      <input type="hidden" name="firma" id="firmaInput" />
 
       <button type="button" id="limpiarFirma">🧹 Borrar firma</button>
       <button type="submit">✅ Enviar conformidad</button>
     </form>
   </main>
+
+  <div id="success-message">
+    ✅ <strong>Formulario enviado con éxito</strong><br><br>
+    ¡Gracias por confirmar su conformidad!
+  </div>
 
   <script>
     const canvas = document.getElementById('firma');
@@ -182,12 +243,10 @@
     });
 
     document.getElementById('formContrato').addEventListener('submit', (e) => {
-      // Guardar firma como imagen base64 antes de enviar
-      const firmaData = canvas.toDataURL();
-      document.getElementById('firmaInput').value = firmaData;
-
-      // Mostrar mensaje al enviar
-      alert('✅ Conformidad enviada correctamente. ¡Gracias!');
+      e.preventDefault();
+      // Simula envío
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
     });
   </script>
 </body>
