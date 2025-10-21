@@ -183,7 +183,7 @@
 
     function resizeCanvas() {
       const ratio = window.devicePixelRatio || 1;
-      canvas.width = canvase.offsetWidth * ratio;
+      canvas.width = canvas.offsetWidth * ratio;
       canvas.height = canvas.offsetHeight * ratio;
       ctx.scale(ratio, ratio);
       ctx.lineWidth = 2;
